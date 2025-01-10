@@ -1,5 +1,7 @@
 package com.example.pertemuan14.ui.home.viewmodel
 
+import com.example.pertemuan14.model.Mahasiswa
+
 sealed class FormState {
     object Idle : FormState()
     object Loading : FormState()
@@ -33,5 +35,14 @@ data class  MahasiswaEvent(
     val jeniskelamin: String = "",
     val alamat: String = "",
     val kelas: String = "",
-    val angakatan: String = "",
+    val angkatan: String = "",
+)
+
+fun MahasiswaEvent.toMhsModel(): Mahasiswa = Mahasiswa(
+    nim = nim,
+    nama = nama,
+    jenisKelamin = jeniskelamin,
+    alamat = alamat,
+    kelas = kelas,
+    angkatan = angkatan
 )
