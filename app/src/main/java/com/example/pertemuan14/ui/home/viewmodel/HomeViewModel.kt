@@ -46,7 +46,7 @@ class HomeViewModel(
     fun deleteMhs(mahasiswa: Mahasiswa) {
         viewModelScope.launch {
             try {
-                mhs.deleteMhs(mahasiswa)
+                repositoryMhs.deleteMhs(mahasiswa)
             } catch (e: Exception) {
                 mhsUIState = HomeUiState.Error(e)
             }
