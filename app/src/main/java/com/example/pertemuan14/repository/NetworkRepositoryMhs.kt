@@ -48,4 +48,26 @@ class NetworkRepositoryMhs(
             mhsDocument.remove()
         }
     }
+
+    override suspend fun deleteMhs(mahasiswa: Mahasiswa) {
+        try {
+            firestore.collection("Mahasiswa")
+                .document(mahasiswa.nim)
+                .delete()
+                .await()
+        } catch (e: Exception) {
+            throw Exception("Gagal menghapus data mahasiswa:${e.message}")
+        }
+    }
+
+    override suspend fun updateMhs(mahasiswa: Mahasiswa) {
+        try {
+            firestore.collection("Mahasiswa")
+                .document(mahasiswa.nim)
+                .set(mahasiswa)
+                .await()
+        } catch (e: Exception){
+            throw Exception("Gagal mengupdate data mahasiswa")
+        }
+    }
 }
