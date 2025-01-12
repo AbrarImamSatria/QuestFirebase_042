@@ -97,17 +97,20 @@ fun HomeStatus(
     modifier: Modifier = Modifier,
     onDetailClick: (String) -> Unit,
     onDeleteClick: (Mahasiswa) -> Unit = {},
-){
+) {
     var deleteConfirmationRequired by rememberSaveable { mutableStateOf<Mahasiswa?>(null) }
+
     when (homeUiState) {
         is HomeUiState.Loading -> OnLoading(modifier = modifier.fillMaxSize())
         is HomeUiState.Succes -> {
             MhsLayout(
-                mahasiswa = homeUiState.data, modifier = modifier.fillMaxWidth(), onDetailClick = {
+                mahasiswa = homeUiState.data,
+                modifier = modifier.fillMaxWidth(),
+                onDetailClick = {
                     onDetailClick(it)
                 },
-                onDeleteClick ={
-                    onDeleteClick (it)
+                onRequestDeleteConfirmation = { mahasiswa ->
+                    deleteConfirmationRequired = mahasiswa
                 }
             )
             deleteConfirmationRequired?.let { data ->
@@ -118,7 +121,8 @@ fun HomeStatus(
                     },
                     onDeleteCancel = {
                         deleteConfirmationRequired = null
-                    })
+                    }
+                )
             }
         }
         is HomeUiState.Error -> OnError(retryAction,
@@ -126,6 +130,7 @@ fun HomeStatus(
             message = homeUiState.e.message ?: "Error")
     }
 }
+
 
 @Composable
 fun OnLoading(modifier: Modifier = Modifier) {
@@ -154,12 +159,14 @@ fun OnError(
         }
     }
 }
+
 @Composable
 fun MhsLayout(
     mahasiswa: List<Mahasiswa>,
     modifier: Modifier = Modifier,
     onDetailClick: (String) -> Unit,
-    onDeleteClick: (Mahasiswa) -> Unit = {}
+    onDeleteClick: (Mahasiswa) -> Unit = {},
+    onRequestDeleteConfirmation: (Mahasiswa) -> Unit
 ) {
     LazyColumn(
         modifier = modifier,
@@ -175,13 +182,14 @@ fun MhsLayout(
                         .fillMaxWidth()
                         .clickable {},
                     onDeleteClick = {
-                        onDeleteClick(mhs)
+                        onRequestDeleteConfirmation(mhs)
                     }
                 )
             }
         )
     }
 }
+
 
 
 @Composable
