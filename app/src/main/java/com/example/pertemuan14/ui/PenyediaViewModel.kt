@@ -7,6 +7,7 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.pertemuan14.MahasiswaApplications
 import com.example.pertemuan14.model.Mahasiswa
+import com.example.pertemuan14.ui.home.viewmodel.DetailViewModel
 import com.example.pertemuan14.ui.home.viewmodel.HomeViewModel
 import com.example.pertemuan14.ui.home.viewmodel.InsertViewModel
 
@@ -20,6 +21,12 @@ object PenyediaViewModel{
 
         initializer {
             InsertViewModel(
+                mahasiswaApp().container.repositoryMhs
+            )
+        }
+
+        initializer {
+            DetailViewModel(
                 mahasiswaApp().container.repositoryMhs
             )
         }
