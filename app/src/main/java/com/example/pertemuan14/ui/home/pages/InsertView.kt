@@ -200,7 +200,6 @@ fun FormMahasiswa(
             color = Color.Red
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
         Text(text = "Jenis Kelamin")
         Row (
             modifier = Modifier.fillMaxWidth()
@@ -242,7 +241,6 @@ fun FormMahasiswa(
             color = Color.Red
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
         Text(text = "Kelas")
         Row {
             kelas.forEach { kelas ->
@@ -278,6 +276,51 @@ fun FormMahasiswa(
         )
         Text(
             text = errorState.angkatan ?: "",
+            color = Color.Red
+        )
+
+        OutlinedTextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = mahasiswaEvent.judul,
+            onValueChange = {
+                onValueChange(mahasiswaEvent.copy(judul = it))
+            },
+            label = { Text("Judul") },
+            isError = errorState.judul != null,
+            placeholder = { Text("Masukkan judul") },
+        )
+        Text(
+            text = errorState.judul ?: "",
+            color = Color.Red
+        )
+
+        OutlinedTextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = mahasiswaEvent.dosenPembimbing1,
+            onValueChange = {
+                onValueChange(mahasiswaEvent.copy(dosenPembimbing1 = it))
+            },
+            label = { Text("Dosen Pembimbing 1") },
+            isError = errorState.dosenPembimbing1 != null,
+            placeholder = { Text("Masukkan Dosen Pembimbing 1") },
+        )
+        Text(
+            text = errorState.dosenPembimbing1?: "",
+            color = Color.Red
+        )
+
+        OutlinedTextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = mahasiswaEvent.dosenPembimbing2,
+            onValueChange = {
+                onValueChange(mahasiswaEvent.copy(dosenPembimbing2 = it))
+            },
+            label = { Text("Dosen Pembimbing 2") },
+            isError = errorState.dosenPembimbing2 != null,
+            placeholder = { Text("Masukkan Dosen Pembimbing 2") },
+        )
+        Text(
+            text = errorState.dosenPembimbing2?: "",
             color = Color.Red
         )
     }
