@@ -9,7 +9,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -49,6 +51,9 @@ fun InsertMhsView(
     modifier: Modifier = Modifier,
     viewModel: InsertViewModel = viewModel(factory = PenyediaViewModel.Factory)
 ){
+    val state = rememberScrollState()
+    LaunchedEffect(Unit) { state.animateScrollTo(100) }
+
     val uiState = viewModel.uiState //State utama untuk loading, success, error
     val uiEvent = viewModel.uiEvent //State untuk form dan validasi
     val snackbarHostState = remember { SnackbarHostState() }
@@ -99,6 +104,7 @@ fun InsertMhsView(
                 .fillMaxSize()
                 .padding(padding)
                 .padding(16.dp)
+                .verticalScroll(state)
         ) {
             InsertBodyMhs(
                 uiState = uiEvent,
@@ -200,6 +206,7 @@ fun FormMahasiswa(
             color = Color.Red
         )
 
+        Spacer(modifier = Modifier.height(16.dp))
         Text(text = "Jenis Kelamin")
         Row (
             modifier = Modifier.fillMaxWidth()
@@ -241,6 +248,7 @@ fun FormMahasiswa(
             color = Color.Red
         )
 
+        Spacer(modifier = Modifier.height(16.dp))
         Text(text = "Kelas")
         Row {
             kelas.forEach { kelas ->
