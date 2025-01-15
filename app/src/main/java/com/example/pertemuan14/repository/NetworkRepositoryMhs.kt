@@ -13,9 +13,12 @@ class NetworkRepositoryMhs(
 ) : RepositoryMhs {
     override suspend fun insertMhs(mahasiswa: Mahasiswa) {
         try {
-            firestore.collection("Mahasiswa").add(mahasiswa).await()
+            firestore.collection("Mahasiswa")
+                .document(mahasiswa.nim)
+                .set(mahasiswa)
+                .await()
         } catch (e: Exception) {
-            throw Exception("Gagal menambahkan data mahasiswa:${e.message}")
+            throw Exception("Gagal menambahkan data mahasiswa: ${e.message}")
         }
     }
 
@@ -51,19 +54,12 @@ class NetworkRepositoryMhs(
 
     override suspend fun deleteMhs(mahasiswa: Mahasiswa) {
         try {
-            val querySnapshot = firestore.collection("Mahasiswa")
-                .whereEqualTo("nim", mahasiswa.nim)
-                .get()
+            firestore.collection("Mahasiswa")
+                .document(mahasiswa.nim)
+                .delete()
                 .await()
-
-            if (!querySnapshot.isEmpty) {
-                val document = querySnapshot.documents[0]
-                document.reference.delete().await()
-            } else {
-                throw Exception("Data mahasiswa tidak ditemukan")
-            }
         } catch (e: Exception) {
-            throw Exception("Gagal menghapus data mahasiswa: ${e.message}")
+            throw Exception("Gagal Menghapus data mahasiswa:${e.message}")
         }
     }
 
